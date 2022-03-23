@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <h1 style="font-family: 'Calistoga', cursive;color:white; text-align: center;">SAKA HAO</h1><br>
+    {% if request.user.profile.houserental %}
+            <p class="text-center" style="color: white;"><b>Current Houserental: </b><a class="btn btn-sm btn-danger" href="{% url 'single-hood' user.profile.houserental.id %}">{{ user.profile.houserental.name }}</a>
+            </p>
+            {% endif %}
+    <div class="row">
+        {% for hood in all_hoods %}
+        <div class="col-md-4">
+            <div class="card mb-4" style="min-height:340px">
+                <img src="{{ hood.logo.url }}" class="card-img-top" alt="" style="width: 200px; height: 200px; border-radius: 50%">
+                <div class="card-body">
+                    <h5 class="card-title"> Houserental:  <small>{{ hood.name }} </small> <span class="ml-4"></span></h5><hr>
+                    <!-- <h5>Census:  <small>{{hood.members.count}} member{{hood.members.count|pluralize}}</small></h5><hr> -->
+                    <h5>Location:  <small>{{hood.location}}</small></h5><hr>
+                    <h5>Description:  <small>{{hood.description}}</small></h5><hr>
+                    <br><br>
+                    
+                    {% if request.user.profile.houserental == hood %}
+                    <a href="{% url 'leave-hood' hood.id %}" class="btn btn-outline-danger btn-sm">Leave Estate</a>
+                    {% elif not request.user.profile.houserental %}
+                    <a href="{% url 'join-hood' hood.id %}" class="btn btn-primary btn-sm">View Estate</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
