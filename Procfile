@@ -1,0 +1,1 @@
+web: gunicorn sakarental.wsgi --log-file -
